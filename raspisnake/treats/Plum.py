@@ -8,7 +8,7 @@ class Plum(Treat):
         super(Plum, self).__init__(PURPLE, position, start_turn, 10)
 
     def on_contact(self, snake):
-        snake.set_crashed(True)
+        snake.reverty = True
 
     def get_points(self):
-        return 0
+        return 3

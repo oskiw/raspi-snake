@@ -8,7 +8,7 @@ class Orange(Treat):
         super(Orange, self).__init__(ORANGE, position, start_turn, 30)
 
     def on_contact(self, snake):
-        snake.set_reverty(True)
+        snake.speed = 0.3
 
     def get_points(self):
-        return 3
+        return 1

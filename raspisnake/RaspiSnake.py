@@ -16,14 +16,50 @@ class RaspiSnake(object):
     def __init__(self):
         pygame.init()
         pygame.display.set_mode((640, 480))
-        self.sense = SenseHat()
-        self.speed = DEFAULT_SPEED
-        self.sense.clear()
+        self._sense = SenseHat()
+        self._speed = DEFAULT_SPEED
+        self._sense.clear()
         starting_position = Position(3, 3)
-        self.snake = [starting_position]
+        self._snake = [starting_position]
         self.set_snake_pixel(starting_position)
-        self.crash = False
+        self._crash = False
         self.reset_revert()
+
+    @property
+    def speed(self):
+        return self._speed
+
+    @speed.setter
+    def speed(self, speed):
+        self._speed = speed
+
+    @property
+    def crash(self):
+        return self._crash
+
+    @crash.setter
+    def crash(self, crash):
+        self._crash = crash
+
+    @property
+    def revertx(self):
+        return self._revertx
+
+    @revertx.setter
+    def revertx(self, val):
+        self._revertx = val
+
+    @property
+    def reverty(self):
+        return self._revertx
+
+    @reverty.setter
+    def reverty(self, val):
+        self._reverty = val
+
+    def reset_revert(self):
+        self._revertx = False
+        self._reverty = False
 
     def set_snake_pixel(self, position):
         self.set_pixel(position, WHITE)
@@ -32,7 +68,7 @@ class RaspiSnake(object):
         self.set_pixel(position, BLACK)
 
     def set_pixel(self, position, color):
-        self.sense.set_pixel(position.x, position.y, color.r, color.g, color.b)
+        self._sense.set_pixel(position.x, position.y, color.r, color.g, color.b)
 
     def run(self):
 
@@ -67,7 +103,7 @@ class RaspiSnake(object):
                                     key = K_RIGHT
                                 elif key == K_RIGHT:
                                     key = K_LEFT
-                            if len(self.snake) == 1 or self.get_next_position(key) != self.snake[-2]:
+                            if len(self._snake) == 1 or self.get_next_position(key) != self._snake[-2]:
                                 last_direction = key
 
                 if event.type == QUIT:
@@ -91,44 +127,28 @@ class RaspiSnake(object):
                         self.unset_snake_pixel(treat.position)
                         treat = self.generate_treat(turn)
 
-                    if not self.crash:
-                        self.crash = self.has_crashed(next_position)
+                    if not self._crash:
+                        self._crash = self.has_crashed(next_position)
 
-                    if not self.crash:
+                    if not self._crash:
                         self.add_head(next_position)
 
-            if self.crash:
+            if self._crash:
                 running = False
                 self.stop(points)
 
-            sleep(self.speed)
-
-    def set_speed(self, speed):
-        self.speed = speed
-
-    def set_crashed(self, crash):
-        self.crash = crash
-
-    def reset_revert(self):
-        self.revertx = False
-        self.reverty = False
-
-    def set_revertx(self, val):
-        self.revertx = val
-
-    def set_reverty(self, val):
-        self.reverty = val
+            sleep(self._speed)
 
     def stop(self, points):
-        self.sense.clear()
-        self.sense.show_message(str(points) + "pts", scroll_speed=0.15, text_colour=WHITE.to_list(),
-                                back_colour=BLACK.to_list())
+        self._sense.clear()
+        self._sense.show_message(str(points) + "pts", scroll_speed=0.15, text_colour=WHITE.to_list(),
+                                 back_colour=BLACK.to_list())
         sleep(1)
-        self.sense.clear()
+        self._sense.clear()
         print("Bye - you got " + str(points) + " points")
 
     def get_next_position(self, last_direction):
-        last_position = self.snake[-1]
+        last_position = self._snake[-1]
 
         if last_direction == K_DOWN:
             return Position(last_position.x, (last_position.y + 1) % 8)
@@ -142,18 +162,18 @@ class RaspiSnake(object):
         return None
 
     def has_crashed(self, position):
-        for p in self.snake:
+        for p in self._snake:
             if p == position:
                 return True
         return False
 
     def remove_tail(self):
-        self.unset_snake_pixel(self.snake[0])
-        self.snake.pop(0)
+        self.unset_snake_pixel(self._snake[0])
+        self._snake.pop(0)
 
     def add_head(self, head):
         self.set_snake_pixel(head)
-        self.snake.append(head)
+        self._snake.append(head)
 
     def generate_treat(self, turn):
         empty_position = []

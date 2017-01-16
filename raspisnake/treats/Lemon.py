@@ -8,7 +8,7 @@ class Lemon(Treat):
         super(Lemon, self).__init__(YELLOW, position, start_turn, 10)
 
     def on_contact(self, snake):
-        snake.set_speed(1)
+        snake.speed = 1
 
     def get_points(self):
         return 1
