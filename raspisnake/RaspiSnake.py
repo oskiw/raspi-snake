@@ -1,18 +1,12 @@
-from random import randint
-from time import sleep
-
 import pygame
 from pygame.locals import *
 from sense_hat import SenseHat
+from random import randint
+from time import sleep
 
 from raspisnake.Color import *
 from raspisnake.Position import Position
-from raspisnake.treats.Plum import Plum
-from raspisnake.treats.Apple import Apple
-from raspisnake.treats.Blueberry import Blueberry
-from raspisnake.treats.Lemon import Lemon
-from raspisnake.treats.Orange import Orange
-from raspisnake.treats.Strawberry import Strawberry
+from raspisnake.treats.TreatFactory import TreatFactory
 
 DEFAULT_SPEED = 0.5
 
@@ -170,21 +164,7 @@ class RaspiSnake(object):
                     empty_position.append(p)
 
         position = empty_position[randint(0, len(empty_position) - 1)]
-
-        t = randint(0, 5)
-        if t == 0:
-            treat = Apple(position, turn)
-        elif t == 1:
-            treat = Lemon(position, turn)
-        elif t == 2:
-            treat = Strawberry(position, turn)
-        elif t == 3:
-            treat = Blueberry(position, turn)
-        elif t == 4:
-            treat = Orange(position, turn)
-        else:
-            treat = Plum(position, turn)
-
+        treat = TreatFactory.get_treat(position, turn)
         self.set_pixel(position, treat.color)
         return treat
 

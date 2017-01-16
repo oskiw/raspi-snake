@@ -11,6 +11,10 @@ class Treat(object):
     def color(self):
         return self._color
 
+    @property
+    def position(self):
+        return self._position
+
     def has_expired(self, turn):
         return self._start_turn + self._expiration < turn
 
@@ -20,6 +24,3 @@ class Treat(object):
     def get_points(self):
         raise NotImplementedError("Subclass must implement abstract method")
 
-    @property
-    def position(self):
-        return self._position
