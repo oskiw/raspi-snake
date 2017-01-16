@@ -1,16 +1,18 @@
+from random import randint
+from time import sleep
+
 import pygame
 from pygame.locals import *
 from sense_hat import SenseHat
-from time import sleep
-from random import randint
-from Position import Position
-from Color import *
-from Apple import Apple
-from Lemon import Lemon
-from Strawberry import Strawberry
-from Plum import Plum
-from Blueberry import Blueberry
-from Orange import Orange
+
+from raspisnake.Color import *
+from raspisnake.Position import Position
+from raspisnake.treats.Plum import Plum
+from raspisnake.treats.Apple import Apple
+from raspisnake.treats.Blueberry import Blueberry
+from raspisnake.treats.Lemon import Lemon
+from raspisnake.treats.Orange import Orange
+from raspisnake.treats.Strawberry import Strawberry
 
 DEFAULT_SPEED = 0.5
 
@@ -23,9 +25,9 @@ class RaspiSnake(object):
         self.sense = SenseHat()
         self.speed = DEFAULT_SPEED
         self.sense.clear()
-        startingposition = Position(3, 3)
-        self.snake = [startingposition]
-        self.set_snake_pixel(startingposition)
+        starting_position = Position(3, 3)
+        self.snake = [starting_position]
+        self.set_snake_pixel(starting_position)
         self.crash = False
         self.reset_revert()
 
@@ -36,13 +38,13 @@ class RaspiSnake(object):
         self.set_pixel(position, BLACK)
 
     def set_pixel(self, position, color):
-        self.sense.set_pixel(position.getx(), position.gety(), color.getr(), color.getg(), color.getb())
+        self.sense.set_pixel(position.x, position.y, color.r, color.g, color.b)
 
     def run(self):
 
         paused = False
         running = True
-        lastdirection = None
+        last_direction = None
         points = 0
         turn = 0
         treat = self.generate_treat(turn)
@@ -72,17 +74,17 @@ class RaspiSnake(object):
                                 elif key == K_RIGHT:
                                     key = K_LEFT
                             if len(self.snake) == 1 or self.get_next_position(key) != self.snake[-2]:
-                                lastdirection = key
+                                last_direction = key
 
                 if event.type == QUIT:
                     running = False
                     self.stop(points)
 
             if not paused:
-                if lastdirection is not None:
+                if last_direction is not None:
                     turn += 1
-                    nextposition = self.get_next_position(lastdirection)
-                    if nextposition == treat.get_position():
+                    next_position = self.get_next_position(last_direction)
+                    if next_position == treat.position:
                         points += treat.get_points()
                         self.speed = DEFAULT_SPEED
                         self.reset_revert()
@@ -92,14 +94,14 @@ class RaspiSnake(object):
                         self.remove_tail()
 
                     if treat.has_expired(turn):
-                        self.unset_snake_pixel(treat.get_position())
+                        self.unset_snake_pixel(treat.position)
                         treat = self.generate_treat(turn)
 
                     if not self.crash:
-                        self.crash = self.has_crashed(nextposition)
+                        self.crash = self.has_crashed(next_position)
 
                     if not self.crash:
-                        self.add_head(nextposition)
+                        self.add_head(next_position)
 
             if self.crash:
                 running = False
@@ -131,17 +133,17 @@ class RaspiSnake(object):
         self.sense.clear()
         print("Bye - you got " + str(points) + " points")
 
-    def get_next_position(self, lastdirection):
-        lastposition = self.snake[-1]
+    def get_next_position(self, last_direction):
+        last_position = self.snake[-1]
 
-        if lastdirection == K_DOWN:
-            return Position(lastposition.getx(), (lastposition.gety() + 1) % 8)
-        if lastdirection == K_UP:
-            return Position(lastposition.getx(), (lastposition.gety() - 1) % 8)
-        if lastdirection == K_RIGHT:
-            return Position((lastposition.getx() + 1) % 8, lastposition.gety())
-        if lastdirection == K_LEFT:
-            return Position((lastposition.getx() - 1) % 8, lastposition.gety())
+        if last_direction == K_DOWN:
+            return Position(last_position.x, (last_position.y + 1) % 8)
+        if last_direction == K_UP:
+            return Position(last_position.x, (last_position.y - 1) % 8)
+        if last_direction == K_RIGHT:
+            return Position((last_position.x + 1) % 8, last_position.y)
+        if last_direction == K_LEFT:
+            return Position((last_position.x - 1) % 8, last_position.y)
 
         return None
 
@@ -160,14 +162,14 @@ class RaspiSnake(object):
         self.snake.append(head)
 
     def generate_treat(self, turn):
-        emptyposition = []
+        empty_position = []
         for x in range(8):
             for y in range(8):
                 p = Position(x, y)
                 if not self.has_crashed(p):
-                    emptyposition.append(p)
+                    empty_position.append(p)
 
-        position = emptyposition[randint(0, len(emptyposition) - 1)]
+        position = empty_position[randint(0, len(empty_position) - 1)]
 
         t = randint(0, 5)
         if t == 0:
@@ -183,7 +185,7 @@ class RaspiSnake(object):
         else:
             treat = Plum(position, turn)
 
-        self.set_pixel(position, treat.get_color())
+        self.set_pixel(position, treat.color)
         return treat
 
 

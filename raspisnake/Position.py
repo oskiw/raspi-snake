@@ -2,14 +2,16 @@
 class Position(object):
 
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        self._x = x
+        self._y = y
 
-    def getx(self):
-        return self.x
+    @property
+    def x(self):
+        return self._x
 
-    def gety(self):
-        return self.y
+    @property
+    def y(self):
+        return self._y
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -20,4 +22,4 @@ class Position(object):
         return not self.__eq__(other)
 
     def __str__(self):
-        return "(" + str(self.x) + "," + str(self.y) + ")"
+        return "(" + str(self._x) + "," + str(self._y) + ")"

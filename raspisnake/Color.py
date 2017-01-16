@@ -2,18 +2,21 @@
 class Color(object):
 
     def __init__(self, r, g, b):
-        self.r = r
-        self.g = g
-        self.b = b
+        self._r = r
+        self._g = g
+        self._b = b
 
-    def getr(self):
-        return self.r
+    @property
+    def r(self):
+        return self._r
 
-    def getg(self):
-        return self.g
+    @property
+    def g(self):
+        return self._g
 
-    def getb(self):
-        return self.b
+    @property
+    def b(self):
+        return self._b
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -24,10 +27,10 @@ class Color(object):
         return not self.__eq__(other)
 
     def __str__(self):
-        return "(" + str(self.r) + "," + str(self.g) + "," + str(self.b) + ")"
+        return "(" + str(self._r) + "," + str(self._g) + "," + str(self._b) + ")"
 
     def to_list(self):
-        return [self.r, self.g, self.b]
+        return [self._r, self._g, self._b]
 
 
 WHITE = Color(255, 255, 255)
