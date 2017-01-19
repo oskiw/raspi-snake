@@ -11,10 +11,10 @@ class Plum(Treat):
 
     def on_contact(self, snake):
         snake.transform_direction = {
-            K_DOWN: K_UP,
-            K_UP: K_DOWN,
-            K_LEFT: K_LEFT,
-            K_RIGHT: K_RIGHT
+            K_DOWN: K_DOWN,
+            K_UP: K_UP,
+            K_LEFT: K_RIGHT,
+            K_RIGHT: K_LEFT
         }
 
     def get_points(self):
