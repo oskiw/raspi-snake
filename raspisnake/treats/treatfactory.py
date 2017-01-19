@@ -1,11 +1,11 @@
 from random import randint
 
-from raspisnake.treats.Apple import Apple
-from raspisnake.treats.Blueberry import Blueberry
-from raspisnake.treats.Lemon import Lemon
-from raspisnake.treats.Orange import Orange
-from raspisnake.treats.Plum import Plum
-from raspisnake.treats.Strawberry import Strawberry
+from raspisnake.treats.apple import Apple
+from raspisnake.treats.blueberry import Blueberry
+from raspisnake.treats.lemon import Lemon
+from raspisnake.treats.orange import Orange
+from raspisnake.treats.plum import Plum
+from raspisnake.treats.strawberry import Strawberry
 
 
 class TreatFactory(object):

@@ -1,7 +1,7 @@
 from pygame.locals import *
 
-from raspisnake.Color import BLUE
-from raspisnake.treats.Treat import Treat
+from raspisnake.color import BLUE
+from raspisnake.treats.treat import Treat
 
 
 class Blueberry(Treat):

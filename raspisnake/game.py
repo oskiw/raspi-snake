@@ -4,13 +4,13 @@ from pygame.locals import *
 from random import randint
 from time import sleep
 
-from raspisnake.Coordinates import Coordinates
-from raspisnake.Snake import Snake
-from raspisnake.Board import Board
-from raspisnake.treats.TreatFactory import TreatFactory
+from raspisnake.coordinates import Coordinates
+from raspisnake.snake import Snake
+from raspisnake.board import Board
+from raspisnake.treats.treatfactory import TreatFactory
 
 
-class RaspiSnakeGame(object):
+class Game(object):
 
     def __init__(self):
         pygame.init()
@@ -85,8 +85,3 @@ class RaspiSnakeGame(object):
         treat = TreatFactory.get_treat(position, turn)
         self._board.set_pixel(position, treat.color)
         return treat
-
-
-if __name__ == "__main__":
-    snake = RaspiSnakeGame()
-    snake.run()

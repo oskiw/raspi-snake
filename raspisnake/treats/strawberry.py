@@ -1,5 +1,5 @@
-from raspisnake.Color import RED
-from raspisnake.treats.Treat import Treat
+from raspisnake.color import RED
+from raspisnake.treats.treat import Treat
 
 
 class Strawberry(Treat):

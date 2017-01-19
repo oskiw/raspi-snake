@@ -1,5 +1,5 @@
 from pygame.locals import *
-from raspisnake.Coordinates import Coordinates
+from raspisnake.coordinates import Coordinates
 
 
 DEFAULT_SPEED = 0.5

@@ -1,5 +1,5 @@
 from sense_hat import SenseHat
-from raspisnake.Color import *
+from raspisnake.color import *
 from time import sleep
 
 
