@@ -12,6 +12,7 @@ class Snake(object):
         self._crashed = False
         self._direction = None
         self._board = board
+        self._board.set_snake_pixel(self.head())
         self._direction_functions = {
             K_DOWN: lambda position: Coordinates(position.x, (position.y + 1) % 8),
             K_UP: lambda position: Coordinates(position.x, (position.y - 1) % 8),
@@ -57,9 +58,10 @@ class Snake(object):
         return self._direction is not None
 
     def update_direction(self, key):
+        transformed_key = self._transform_direction.get(key)
         if len(self._positions_queue) == 1\
-                or self.get_next_position_for_key(self._transform_direction.get(key)) != self._positions_queue[-2]:
-            self._direction = key
+                or self.get_next_position_for_key(transformed_key) != self._positions_queue[-2]:
+            self._direction = transformed_key
 
     def is_snake(self, position):
         for p in self._positions_queue:
@@ -74,7 +76,7 @@ class Snake(object):
         return self._direction_functions.get(key)(self.head())
 
     def remove_tail(self):
-        self._board.unset_snake_pixel(self.head())
+        self._board.unset_snake_pixel(self.tail())
         self._positions_queue.pop(0)
 
     def add_head(self, position):
@@ -84,5 +86,8 @@ class Snake(object):
             self._board.set_snake_pixel(position)
             self._positions_queue.append(position)
 
-    def head(self):
+    def tail(self):
         return self._positions_queue[0]
+
+    def head(self):
+        return self._positions_queue[-1]

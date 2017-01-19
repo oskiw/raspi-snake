@@ -18,4 +18,4 @@ class Blueberry(Treat):
         }
 
     def get_points(self):
-        return 3
+        return 2

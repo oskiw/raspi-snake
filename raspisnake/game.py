@@ -24,7 +24,7 @@ class Game(object):
 
     def run(self):
 
-        running = False
+        running = True
         paused = False
         points = 0
         turn = 0
