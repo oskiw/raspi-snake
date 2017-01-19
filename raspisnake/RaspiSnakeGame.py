@@ -4,7 +4,7 @@ from pygame.locals import *
 from random import randint
 from time import sleep
 
-from raspisnake.Position import Position
+from raspisnake.Coordinates import Coordinates
 from raspisnake.Snake import Snake
 from raspisnake.Board import Board
 from raspisnake.treats.TreatFactory import TreatFactory
@@ -77,7 +77,7 @@ class RaspiSnakeGame(object):
         empty_position = []
         for x in range(8):
             for y in range(8):
-                p = Position(x, y)
+                p = Coordinates(x, y)
                 if not self._snake.is_snake(p):
                     empty_position.append(p)
 
@@ -90,5 +90,3 @@ class RaspiSnakeGame(object):
 if __name__ == "__main__":
     snake = RaspiSnakeGame()
     snake.run()
-
-
