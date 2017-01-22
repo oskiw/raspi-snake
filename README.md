@@ -2,8 +2,12 @@
 
 <h4>Snake game for Raspberry Pi with Sense Hat</h4>
 
+
 ![Demo 1](demo/demo1.gif "Demo 1")
+
+
 ![Demo 2](demo/demo2.gif "Demo 2")
+
 
 <h5> Game description</h5>
 
