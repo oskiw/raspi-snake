@@ -52,7 +52,7 @@ class Game(object):
                     points += treat.get_points()
                     self._snake.reset_attributes()
                     treat.on_contact(self._snake)
-                    treat = self.get_next_treat(turn)
+                    treat = self.get_next_treat(turn, next_position)
                 else:
                     self._snake.remove_tail()
 
@@ -73,12 +73,12 @@ class Game(object):
         print("Bye - you got " + str(points) + " points")
         return False
 
-    def get_next_treat(self, turn):
+    def get_next_treat(self, turn, next_position):
         empty_position = []
         for x in range(8):
             for y in range(8):
                 p = Coordinates(x, y)
-                if not self._snake.is_snake(p):
+                if not self._snake.is_snake(p) and p != next_position:
                     empty_position.append(p)
 
         position = empty_position[randint(0, len(empty_position) - 1)]
